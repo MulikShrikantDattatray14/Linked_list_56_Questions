@@ -1,0 +1,78 @@
+//The main idea is to flip the order of connections in the linked list, which changes the direction of the arrows. When this happens, the last element becomes the new first element of the list. This in-place reversal allows us to efficiently transform the original list without using extra space.
+
+//==================================================================================================================================================================
+
+class Node {
+    constructor(data, next = null) {
+        this.data = data;
+        this.next = next;
+    }
+}
+
+// Function to reverse a linked list :-
+// using the 3-pointer approach
+function reverseLinkedList(head) {
+    // Initialize pointer 'temp' at
+    // head of the linked list
+    let temp = head;
+
+    // Initialize a pointer 'prev' to null
+    // representing the previous node
+    // (initially none)
+    let prev = null;
+
+    // Traversing the list, continue until
+    // 'temp' reaches the end (null)
+    while (temp !== null) {
+        // Store the next node in
+        // 'front' to preserve the reference
+        let front = temp.next;
+
+        // Reverse direction of current node's
+        // 'next' pointer to point to 'prev'
+        temp.next = prev;
+
+        // move both prev and temp forward thus preparing it for the next iteration.
+
+        // Move 'prev' to the current node,
+        // preparing it for the next iteration
+        prev = temp;
+
+        // Move 'temp' to the 'front' node
+        // (the next node), advancing traversal
+        temp = front;
+    }
+
+    // 'prev' is now the new head of
+    // the reversed linked list
+    console.log(prev)
+    return prev;
+}
+
+// Function to print the linked list
+function printLinkedList(head) {
+    let temp = head;
+    while (temp !== null) {
+        process.stdout.write(temp.data + " ");
+        temp = temp.next;
+    }
+    console.log();
+}
+
+// Create a linked list with
+// values 1, 3, 2, and 4
+const head = new Node(1);
+head.next = new Node(3);
+head.next.next = new Node(2);
+head.next.next.next = new Node(4);
+
+// Print the original linked list
+process.stdout.write("Original Linked List: ");
+printLinkedList(head);
+
+// Reverse the linked list
+const reversedHead = reverseLinkedList(head);
+
+// Print the reversed linked list
+process.stdout.write("Reversed Linked List: ");
+printLinkedList(reversedHead);

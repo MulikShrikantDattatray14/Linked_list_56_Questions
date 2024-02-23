@@ -1,0 +1,97 @@
+
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.prev = null;
+        this.next = null;
+    }
+}
+
+class DoublyLinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    append(data) {
+        const newNode = new Node(data);
+        if (!this.head) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+    }
+
+    findPairsWithSum(k) {
+        let result = [];
+        // keep both pointers at extreme ends.
+        let left = this.head;
+        let right = this.tail;
+        ////left<right
+        while (
+            left != null &&
+            right != null &&
+            left !== right &&
+            right.next !== left
+        ) {
+            const sum = left.data + right.data;
+            if (sum === k) {
+                result.push([left.data, right.data]);
+                left = left.next;
+                right = right.prev;
+            } else if (sum < k) {
+                //increase the sum value
+                left = left.next;
+            } else {
+                // decrease the sum value
+                right = right.prev;
+            }
+        }
+        return result;
+    }
+}
+
+// Example
+const linkedList = new DoublyLinkedList();
+linkedList.append(2);
+linkedList.append(3);
+linkedList.append(3);
+linkedList.append(4);
+linkedList.append(9);
+
+const k = 11;
+const pairs = linkedList.findPairsWithSum(k);
+
+console.log("Pairs with sum", k, ":", pairs);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function findPairs(head, target) {
+    let result = [];
+    let left = head;
+    let curr = head;
+    // Traverse to the end for right pointer
+    let right = null;
+    while (curr !== null) {
+        right = curr;
+        curr = curr.next;
+    }
+    // left < right
+    while (left !== null && right !== null && left !== right && right.next !== left) {
+        let sum = left.data + right.data;
+        if (sum === target) {
+            let temp = [left.data, right.data];
+            result.push(temp);
+            left = left.next;
+            right = right.prev;
+        } else if (sum < target) {
+            left = left.next;
+        } else {
+            right = right.prev;
+        }
+    }
+
+    return result;
+}
